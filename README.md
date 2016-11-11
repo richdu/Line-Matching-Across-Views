@@ -1,0 +1,1 @@
+Implementation of Automatic Line Matching across Views, by Andrew Zisserman and Cordelia Schmid.
