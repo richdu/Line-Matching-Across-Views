@@ -5,6 +5,14 @@ LINE_FINITE = 0
 LINE_INFINITE = 1
 
 
+def length(segment):
+    x1, y1 = [segment[0], segment[1]]
+    x2, y2 = [segment[2], segment[3]]
+    dx = x2 - x1
+    dy = y2 - y1
+    return (dx*dx+dy*dy)**0.5
+
+
 def points_on_segment(segment):
     """
     Implements Bresenham's algorithm to get all points on a line segment
@@ -119,22 +127,21 @@ def intersects_beam(segment, line1, line2):
     # else:
     #     return True
 
-img = cv2.imread('images/aerial1/1726_p1_s.pgm')
-segment = np.asarray([0, 400, 100, 105])
-pts =  points_on_segment(segment)
-line1 = np.asarray([5.21, -4.321, -50])
-line2 = np.asarray([0.1, 10, -50])
-
-for p in pts:
-    cv2.circle(img, p, 0, (0,255,0), 2)
-
-draw_line(img, segment, (255, 0, 0), 1, LINE_FINITE)
+# img = cv2.imread('images/aerial1/1726_p1_s.pgm')
+# segment = np.asarray([0, 400, 100, 105])
+# pts =  points_on_segment(segment)
+# line1 = np.asarray([5.21, -4.321, -50])
+# line2 = np.asarray([0.1, 10, -50])
+#
+# for p in pts:
+#     cv2.circle(img, p, 0, (0,255,0), 2)
+#
+# draw_line(img, segment, (255, 0, 0), 1, LINE_FINITE)
 # draw_line(img, line1, (255,0,0), 2, LINE_INFINITE)
 # draw_line(img, line2, (255,0,0), 2, LINE_INFINITE)
 # if intersects_beam(segment, line1, line2):
 #     draw_line(img, segment, (255, 0, 0), 2, LINE_FINITE)
 
-cv2.imshow('img', img)
-cv2.waitKey(0)
-cv2.destroyAllWindows()
-
+# cv2.imshow('img', img)
+# cv2.waitKey(0)
+# cv2.destroyAllWindows()
