@@ -16,11 +16,12 @@ def __find_region(img1, img2, pt1, pt2, m, n):
 
 def standard_correlation (img1, img2, pt1, pt2, m, n):
     L, R, U, D = __find_region(img1, img2, pt1, pt2, m, n)
+
     u1, v1 = pt1[0], pt1[1]
     u2, v2 = pt2[0], pt2[1]
-    nbhd1 = np.float64(img1[u1-L:u1+R+1, v1-U:v1+D+1].ravel())
-    nbhd2 = np.float64(img2[u2-L:u2+R+1, v2-U:v2+D+1].ravel())
 
+    nbhd1 = np.float64(img1[v1-U:v1+D+1, u1-L:u1+R+1].ravel())
+    nbhd2 = np.float64(img2[v2-U:v2+D+1, u2-L:u2+R+1].ravel())
     mu1 = np.mean(nbhd1); sig1 = np.std(nbhd1)
     mu2 = np.mean(nbhd2); sig2 = np.std(nbhd2)
 
@@ -29,7 +30,7 @@ def standard_correlation (img1, img2, pt1, pt2, m, n):
 
     score = np.dot(nbhd1, np.transpose(nbhd2))
     score /= len(nbhd1)*sig1*sig2
-    print score
+    return score
 
 
 # TODO: H-Correlation
