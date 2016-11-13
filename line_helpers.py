@@ -1,11 +1,17 @@
 import numpy as np
 import cv2
 
+# Constants
 LINE_FINITE = 0
 LINE_INFINITE = 1
 
 
 def length(segment):
+    """
+    Finds length of line segment
+    :param segment: 4 tuple representing 2 points
+    :return: length of line segment
+    """
     x1, y1 = [segment[0], segment[1]]
     x2, y2 = [segment[2], segment[3]]
     dx = x2 - x1
@@ -14,12 +20,12 @@ def length(segment):
 
 
 def points_on_segment(segment):
+    # Segment endpoints
     """
     Implements Bresenham's algorithm to get all points on a line segment
-    :type segment: numpy array of length 4
+    :param segment: 4 tuple representing 2 points
+    :return: all points on the line segment
     """
-
-    # Segment endpoints
     x1, y1 = [segment[0], segment[1]]
     x2, y2 = [segment[2], segment[3]]
     dx = x2 - x1
@@ -66,6 +72,14 @@ def points_on_segment(segment):
 
 
 def draw_line(img, line, color, thickness, line_type):
+    """
+    Draws line on image, handling both line segments and infinite lines
+    :param img: 3-channel image
+    :param line: either 3- or 4-tuple
+    :param color: 3-tuple (R, G, B)
+    :param thickness: thickness of line
+    :param line_type: either finite line or infinite line
+    """
     if line_type == LINE_FINITE:
         cv2.line(img, (int(line[0]), int(line[1])), (int(line[2]), int(line[3])), color, thickness, cv2.LINE_AA)
     # Infinite lines ax + by + c = 0 are represented by a homogeneous 3-vector (a, b, c)
@@ -83,6 +97,12 @@ def __segment2line(segment):
 
 
 def intersect_lines(line1, line2):
+    """
+    Finds intersection of 2 lines
+    :param line1: 3-tuple ax+by+c=0
+    :param line2: 3-tuple ax+by+c=0
+    :return: x,y, the intersection of the lines
+    """
     homogeneous = np.cross(line1, line2)
     homogeneous = homogeneous.astype(float)
     homogeneous /= homogeneous[2]
@@ -90,6 +110,12 @@ def intersect_lines(line1, line2):
 
 
 def intersect_segment_line(segment, line):
+    """
+    Returns whether segment and line intersect, and if so, the point of intersection
+    :param segment: 4-tuple representing 2 endpoints
+    :param line: 3-tuple ax+by+c=0
+    :return: boolean representing whether they intersect, and the point
+    """
     x0, y0 = [segment[0], segment[1]]
     x1, y1 = [segment[2], segment[3]]
     segment = __segment2line(segment)
@@ -101,6 +127,13 @@ def intersect_segment_line(segment, line):
 
 
 def intersects_beam(segment, line1, line2):
+    """
+    Returns whether a segment intersects 2 epilines
+    :param segment: 4-tuple representing 2 endpoints
+    :param line1: 3-tuple ax+by+c=0
+    :param line2: 3-tuple ax+by+c=0
+    :return: boolean representing whether they intersect
+    """
     intersects1, _ = intersect_segment_line(segment, line1)
     intersects2, _ = intersect_segment_line(segment, line2)
     if intersects1 or intersects2:
